@@ -7,7 +7,7 @@ st.set_page_config(
     page_title="NAN | Agendas Automáticas para Manicuristas",
     page_icon="💅",
     layout="centered"
-)
+}
 
 # 2. Estilos visuales de lujo y ocultamiento de barras nativas
 st.markdown("""
