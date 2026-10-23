@@ -12,6 +12,20 @@ st.set_page_config(
 # 2. Estilos visuales de lujo y ocultamiento de barras nativas
 st.markdown("""
 <style>
+/* Integrar logo perfectamente sobre fondo negro */
+[data-testid="stImage"] {
+    display: flex !important;
+    justify-content: center !important;
+    margin-bottom: 10px !important;
+}
+
+[data-testid="stImage"] img {
+    mix-blend-mode: screen !important; /* Elimina automáticamente el recuadro blanco */
+    filter: contrast(110%) brightness(105%) !important;
+    max-width: 190px !important;
+    margin: 0 auto !important;
+}
+
 #MainMenu, header, footer, 
 [data-testid="stToolbar"], 
 [data-testid="stHeader"], 
