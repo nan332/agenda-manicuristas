@@ -257,6 +257,5 @@ msg_compra = "Hola Nancy, vi tu página de NAN Agendas Automáticas. Quiero mi e
 link_compra = "https://wa.me/" + WHATSAPP + "?text=" + urllib.parse.quote(msg_compra)
 
 html_boton_compra = f'<a class="btn-whatsapp" href="{link_compra}" target="_blank">💬 QUIERO MI AGENDA POR $499 MXN →</a>'
-st.markdown(html_boton_compra, unsafe_allow_html=True)
+st.caption("NAN Studio Tech • Creadora de sistemas de citas para Manicuristas • CDMX")
 
-st.caption("NAN Agendas Automáticas • Nancy Rufino • CDMX")
