@@ -3,34 +3,53 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NAN - Agenda Automática</title>
+<title>NAN - Agendas Automáticas</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
-body{background:#0a0a0a;display:flex;justify-content:center}
-.phone{max-width:420px;width:100%;background:#0e0e0e;min-height:100vh;padding:24px;border-left:1px solid #1a1a1a;border-right:1px solid #1a1a1a}
-.logo{width:150px;height:70px;background:linear-gradient(180deg,#E8C565,#C9A84C);margin:20px auto;display:flex;align-items:center;justify-content:center;font-size:42px;font-family:serif;border:2px solid #6b5a2a}
-.sub{text-align:center;color:#C9A84C;letter-spacing:5px;margin-top:24px}
-.card{margin-top:32px;border:1px solid #C9A84C80;border-radius:18px;padding:20px;display:flex;gap:16px;background:#151515;color:#fff}
-.feat{display:flex;gap:12px;margin:24px 0;color:#eee}
-.ico{width:28px;height:28px;border:1.5px solid #C9A84C;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#C9A84C;flex-shrink:0}
-.btn{background:#25D366;color:#fff;border-radius:30px;padding:16px;display:flex;align-items:center;justify-content:center;gap:10px;text-decoration:none;font-weight:800;font-size:19px;margin-top:20px}
-.small{text-align:center;color:#C9A84C;font-size:11px;margin-top:16px}
-.foot{text-align:center;color:#5a5040;font-size:10px;margin-top:32px}
+body{font-family:Arial,sans-serif;max-width:700px;margin:0 auto;padding:40px 20px;background:#fff;color:#111;line-height:1.6}
+h1{font-size:32px;font-weight:bold;line-height:1.2}
+.sub{font-size:18px;margin-bottom:20px}
+p{margin:10px 0}
+.demo{border:1px solid #ddd;border-radius:12px;padding:20px;margin:30px 0}
+.demo input{width:100%;padding:12px;background:#e8e8e8;border:none;border-radius:8px;margin:10px 0;box-sizing:border-box}
+.demo button{padding:8px 16px;border:1px solid #ccc;background:#fff;border-radius:20px;cursor:pointer}
+.price{font-size:28px;font-weight:bold;margin:30px 0 20px}
+.btn-green{display:block;width:100%;background:#00c853;color:#fff;text-align:center;padding:18px;border-radius:12px;font-weight:bold;font-size:18px;text-decoration:none;border:none;cursor:pointer}
+.footer{text-align:center;margin-top:30px;font-size:13px;color:#666}
 </style>
 </head>
 <body>
-<div class="phone">
-<div class="logo">NAN</div>
-<div class="sub">AGENDA AUTOMÁTICA</div>
-<div class="card"><div style="font-size:40px">📅</div><div style="font-size:18px;font-weight:600">Para que agenda sola y le caigan clientas a su WhatsApp 24/7</div></div>
-<div style="margin-top:30px">
-<div class="feat"><div class="ico">✓</div><div>Responde al instante a tus clientas</div></div>
-<div class="feat"><div class="ico">📅</div><div>Confirma y recuerda citas automáticamente</div></div>
-<div class="feat"><div class="ico">💬</div><div>Capta más clientas desde Instagram y WhatsApp</div></div>
+
+<h1>Yo le hago su Agenda Automática a Manicuristas 💅</h1>
+
+<div class="sub">Para que agenda sola y le caigan clientas a su WhatsApp 24/7</div>
+
+<p><b>Yo no hago uñas. Yo hago el sistema.</b></p>
+<p>Yo les creo su link para que su clienta aparte SOLA y a ellas les llegue a su WhatsApp lista para cobrar.</p>
+<p>Dejan de perder tiempo contestando mensajes.</p>
+
+<hr style="margin:30px 0">
+
+<div>Demo de lo que les entrego:</div>
+<div class="demo">
+<div style="font-size:14px">Nombre</div>
+<input type="text" id="nombre" value="Lupita">
+<button onclick="apartar()">Apartar cita</button>
 </div>
-<a class="btn" href="https://wa.me/573001234567?text=Hola%20NAN%20quiero%20conectar%20mi%20WhatsApp">Conectar mi WhatsApp</a>
-<div class="small">Sin complicaciones • Prueba gratis 7 días • Cancela cuando quieras</div>
-<div class="foot">NAN STUDIO • Automatiza tu agenda de uñas</div>
-</div>
+
+<hr style="margin:30px 0">
+
+<div class="price">$499 pago único - Se la hago en 24hrs</div>
+
+<a class="btn-green" href="https://wa.me/525539233647?text=Hola%20Nancy%20quiero%20que%20me%20hagas%20mi%20agenda%20automatica">⚪ QUIERO QUE ME HAGAS MI AGENDA →</a>
+
+<div class="footer">Soy Nancy - Hago agendas, no hago uñas - 55 3923 3647</div>
+
+<script>
+function apartar(){
+let n=document.getElementById('nombre').value||'Lupita';
+window.open('https://wa.me/525539233647?text=Hola%20soy%20'+encodeURIComponent(n)+'%20quiero%20apartar%20mi%20cita','_blank');
+}
+</script>
+
 </body>
 </html>
