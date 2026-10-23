@@ -5,7 +5,21 @@ st.set_page_config(page_title="NAN - Agendas Automaticas", page_icon="logo.png",
 
 # LOGO DE LUJO NEGRO Y DORADO
 st.image("logo.png", width=220)
-# ESCONDER LO DE TENEDOR Y GITHUB PARA QUE SE VEA PRO
+st.markdown("""
+<style>
+#MainMenu {visibility: hidden !important; display: none !important;}
+header {visibility: hidden !important; display: none !important;}
+footer {visibility: hidden !important; display: none !important;}
+[data-testid="stToolbar"] {display: none !important;}
+[data-testid="stHeader"] {display: none !important;}
+[data-testid="stDecoration"] {display: none !important;}
+.stDeployButton {display: none !important;}
+.viewerBadge_container__1QSob {display: none !important;}
+div[class*="viewerBadge"] {display: none !important;}
+a[href*="streamlit.io"] {display: none !important;}
+#Hosted-with-Streamlit {display: none !important;}
+</style>
+""", unsafe_allow_html=True)
 st.markdown("""
 <style>
 #MainMenu {visibility: hidden;}
