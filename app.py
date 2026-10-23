@@ -215,4 +215,53 @@ st.markdown("""
         <div class="benefit-title">Cero Interrupciones</div>
         <div class="benefit-desc">No pares la aplicación de acrílico ni quites los guantes para responder: <i>"¿Cuánto cuesta el set?"</i>.</div>
     </div>
-    <div class="benefit
+    <div class="benefit-card">
+        <div class="benefit-icon">💳</div>
+        <div class="benefit-title">Con Anticipo Listo</div>
+        <div class="benefit-desc">El mensaje les exige su anticipo bancario antes de asegurar el lugar en tu mesa.</div>
+    </div>
+    <div class="benefit-card">
+        <div class="benefit-icon">📱</div>
+        <div class="benefit-title">Link en tu Bio</div>
+        <div class="benefit-desc">Ponlo en tu Instagram, TikTok o Facebook y vende 24/7 en automático.</div>
+    </div>
+    <div class="benefit-card">
+        <div class="benefit-icon">👑</div>
+        <div class="benefit-title">Estatus Profesional</div>
+        <div class="benefit-desc">Da una imagen de estudio de alta gama, cobra lo justo y filtra a clientas dudosas.</div>
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
+# 6. DEMO INTERACTIVA (Para que la manicurista vea lo que le vas a entregar)
+st.markdown("""
+<div class="demo-frame">
+    <div class="demo-tag">✨ Pruébalo aquí: Así de fácil agendarán tus clientas ✨</div>
+""", unsafe_allow_html=True)
+
+col_demo1, col_demo2 = st.columns(2)
+with col_demo1:
+    demo_servicio = st.selectbox(
+        "Servicio a elegir:",
+        ["Acrílico Escultural", "Soft Gel + Cristales", "Mano Alzada / 3D", "Manicura Rusa"]
+    )
+with col_demo2:
+    demo_hora = st.selectbox("Horario preferido:", ["11:00 AM", "01:30 PM", "04:00 PM", "06:30 PM"])
+
+st.caption("⚡ Al dar clic en 'Agendar', tu clienta te enviará un WhatsApp con todo detallado y solicitando tus datos de transferencia.")
+st.markdown("</div>", unsafe_allow_html=True)
+
+# 7. Llamado a la Acción (CTA) de Compra a tu WhatsApp
+mensaje_interes = urllib.parse.quote(
+    "¡Hola NAN Agendas! 👋 Vi su sistema automático para Nail Artists y quiero adquirir mi link personalizado con mi propio logo, catálogo y precios para mi estudio."
+)
+enlace_compra = f"https://wa.me/{WHATSAPP_VENTAS}?text={mensaje_interes}"
+
+st.markdown(f"""
+<a href="{enlace_compra}" target="_blank" class="cta-btn">
+    👉 QUIERO MI SISTEMA DE AGENDAS AHORA
+</a>
+<div class="guarantee-text">
+    🔒 Entrega en 24 horas • Configuración 100% personalizada con tu logo y catálogo • Pago único.
+</div>
+""", unsafe_allow_html=True)
