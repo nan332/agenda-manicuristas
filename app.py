@@ -28,5 +28,5 @@ st.divider()
 st.markdown("## $499 pago único - Se la hago en 24hrs")
 msg = "Hola Nancy quiero que me hagas mi agenda $499"
 link = f"https://wa.me/{WHATSAPP}?text={urllib.parse.quote(msg)}"
-st.link_button("QUIERO QUE ME HAGAS MI AGENDA →", link)
+st.markdown(f'<a href="{link}" target="_blank" style="display:block; background-color:#25D366; color:white; padding:22px; text-align:center; font-size:22px; font-weight:bold; border-radius:12px; text-decoration:none; margin-top:20px;">💬 QUIERO QUE ME HAGAS MI AGENDA →</a>', unsafe_allow_html=True)
 st.caption("Soy Nancy - Hago agendas, no hago uñas - 55 3923 3647")
