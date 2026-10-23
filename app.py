@@ -1,408 +1,226 @@
 import streamlit as st
+from datetime import date, time
 import urllib.parse
-from datetime import date
 
 # 1. Configuración de página
 st.set_page_config(
-    page_title="NAN | Agendas Automáticas para Manicuristas",
-    page_icon="💅",
-    layout="centered"
-}
-
-# 2. Estilos visuales de lujo y ocultamiento de barras nativas
-st.markdown("""
-<style>
-/* Ocultar barras, encabezados, botones de Streamlit y el botón flotante rojo */
-#MainMenu, header, footer, 
-[data-testid="stToolbar"], 
-[data-testid="stHeader"], 
-[data-testid="stDecoration"], 
-.stDeployButton, 
-div[class*="viewerBadge"],
-div[data-testid="stStatusWidget"],
-div[data-testid="stBottom"],
-div[class*="bottomBar"],
-footer[data-testid="stFooter"],
-div[class*="manage-app"],
-div[data-testid="manage-app-button"],
-button[title="Manage app"] {
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-    pointer-events: none !important;
-}
-
-/* Ocultar cualquier contenedor flotante fijo en las esquinas */
-div[style*="position: fixed"][style*="bottom:"],
-div[style*="position: fixed"][style*="right:"],
-div[style*="z-index: 1000000"] {
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-}
-
-.stApp {
-    background-color: #0b0c0e;
-    color: #f5f5f7;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-}
-
-[data-testid="stImage"] {
-    display: flex !important;
-    justify-content: center !important;
-    margin-bottom: 10px !important;
-}
-
-[data-testid="stImage"] img {
-    mix-blend-mode: screen !important;
-    filter: contrast(110%) brightness(105%) !important;
-    max-width: 190px !important;
-    margin: 0 auto !important;
-}
-
-.gold-badge {
-    display: inline-block;
-    background: rgba(212, 175, 55, 0.12);
-    color: #e5c158;
-    border: 1px solid rgba(212, 175, 55, 0.4);
-    padding: 6px 16px;
-    border-radius: 30px;
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.6px;
-    margin-bottom: 12px;
-}
-
-.hero-title {
-    font-size: 28px;
-    font-weight: 800;
-    line-height: 1.25;
-    background: linear-gradient(135deg, #ffffff 40%, #d4af37 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-bottom: 12px;
-    text-align: center;
-}
-
-.hero-subtitle {
-    font-size: 15px;
-    color: #a0a6b2;
-    line-height: 1.5;
-    text-align: center;
-    margin-bottom: 25px;
-}
-
-.grid-cards {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin: 20px 0;
-}
-.luxury-card {
-    background: #14161c;
-    border: 1px solid #282b35;
-    border-radius: 14px;
-    padding: 16px;
-}
-.card-title {
-    font-size: 14px;
-    font-weight: 700;
-    color: #e5c158;
-    margin-bottom: 5px;
-}
-.card-desc {
-    font-size: 12px;
-    color: #9da3af;
-    line-height: 1.4;
-}
-
-.mockup-app {
-    background: #12141a;
-    border: 1px solid #333845;
-    border-radius: 18px;
-    padding: 22px;
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6);
-    margin: 20px 0;
-}
-
-.ticket-box {
-    background: #191c24;
-    border-left: 4px solid #d4af37;
-    border-radius: 10px;
-    padding: 14px;
-    margin: 15px 0;
-}
-
-.btn-gold {
-    display: block;
-    background: linear-gradient(135deg, #d4af37 0%, #aa820a 100%);
-    color: #0b0c0e !important;
-    text-align: center;
-    padding: 15px;
-    font-size: 16px;
-    font-weight: 800;
-    border-radius: 10px;
-    text-decoration: none;
-    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.25);
-    margin-top: 10px;
-}
-
-.btn-whatsapp {
-    display: block;
-    background: linear-gradient(135deg, #25D366 0%, #1da851 100%);
-    color: white !important;
-    text-align: center;
-    padding: 18px 20px;
-    font-size: 18px;
-    font-weight: 800;
-    border-radius: 12px;
-    text-decoration: none;
-    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.35);
-    margin: 20px 0;
-}
-</style>
-
-    
-}
-
-[data-testid="stImage"] img {
-    mix-blend-mode: screen !important; //* Integrar logo perfectamente sobre fondo negro */
-[data-testid="stImage"] {
-    display: flex !important;
-    justify-content: center !important;
-    margin-bottom: 10px !important;
-}
-
-#MainMenu, header, footer, 
-[data-testid="stToolbar"], 
-[data-testid="stHeader"], 
-[data-testid="stDecoration"], 
-.stDeployButton, 
-div[class*="viewerBadge"],
-div[data-testid="stStatusWidget"],
-div[data-testid="stBottom"],
-div[class*="bottomBar"],
-footer[data-testid="stFooter"] {
-    display: none !important;
-    visibility: hidden !important;
-}
-
-div[style*="position: fixed"][style*="bottom:"],
-div[style*="position: fixed"][style*="right:"] {
-    display: none !important;
-    visibility: hidden !important;
-}
-
-.stApp {
-    background-color: #0b0c0e;
-    color: #f5f5f7;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-}
-
-[data-testid="stImage"] {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 5px;
-}
-
-.gold-badge {
-    display: inline-block;
-    background: rgba(212, 175, 55, 0.12);
-    color: #e5c158;
-    border: 1px solid rgba(212, 175, 55, 0.4);
-    padding: 6px 16px;
-    border-radius: 30px;
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.6px;
-    margin-bottom: 12px;
-}
-
-.hero-title {
-    font-size: 28px;
-    font-weight: 800;
-    line-height: 1.25;
-    background: linear-gradient(135deg, #ffffff 40%, #d4af37 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-bottom: 12px;
-    text-align: center;
-}
-
-.hero-subtitle {
-    font-size: 15px;
-    color: #a0a6b2;
-    line-height: 1.5;
-    text-align: center;
-    margin-bottom: 25px;
-}
-
-.grid-cards {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin: 20px 0;
-}
-.luxury-card {
-    background: #14161c;
-    border: 1px solid #282b35;
-    border-radius: 14px;
-    padding: 16px;
-}
-.card-title {
-    font-size: 14px;
-    font-weight: 700;
-    color: #e5c158;
-    margin-bottom: 5px;
-}
-.card-desc {
-    font-size: 12px;
-    color: #9da3af;
-    line-height: 1.4;
-}
-
-.mockup-app {
-    background: #12141a;
-    border: 1px solid #333845;
-    border-radius: 18px;
-    padding: 22px;
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6);
-    margin: 20px 0;
-}
-
-.ticket-box {
-    background: #191c24;
-    border-left: 4px solid #d4af37;
-    border-radius: 10px;
-    padding: 14px;
-    margin: 15px 0;
-}
-
-.btn-gold {
-    display: block;
-    background: linear-gradient(135deg, #d4af37 0%, #aa820a 100%);
-    color: #0b0c0e !important;
-    text-align: center;
-    padding: 15px;
-    font-size: 16px;
-    font-weight: 800;
-    border-radius: 10px;
-    text-decoration: none;
-    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.25);
-    margin-top: 10px;
-}
-
-.btn-whatsapp {
-    display: block;
-    background: linear-gradient(135deg, #25D366 0%, #1da851 100%);
-    color: white !important;
-    text-align: center;
-    padding: 18px 20px;
-    font-size: 18px;
-    font-weight: 800;
-    border-radius: 12px;
-    text-decoration: none;
-    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.35);
-    margin: 20px 0;
-}
-</style>
-""", unsafe_allow_html=True)
-
-# 3. Mostrar logo si existe
-try:
-    st.image("logo.png", width=220)
-except Exception:
-    st.markdown("<h2 style='text-align:center; color:#d4af37;'>NAN • AGENDAS AUTOMÁTICAS</h2>", unsafe_allow_html=True)
-
-# 4. Encabezado
-st.markdown('<div style="text-align:center;"><span class="gold-badge">SISTEMAS EXCLUSIVOS PARA NAIL ARTISTS</span></div>', unsafe_allow_html=True)
-st.markdown('<div class="hero-title">Deja de perder 2 horas al día contestando precios en WhatsApp</div>', unsafe_allow_html=True)
-st.markdown('<div class="hero-subtitle">Tu propio link para Instagram. Tus clientas eligen servicio, día y hora solas, y te mandan su anticipo sin interrumpir tus aplicaciones.</div>', unsafe_allow_html=True)
-
-# 5. Beneficios
-st.markdown("""
-<div class="grid-cards">
-    <div class="luxury-card">
-        <div class="card-title">💅 Cero interrupciones</div>
-        <div class="card-desc">No detengas la aplicación de acrílico para cotizar el mismo servicio una y otra vez.</div>
-    </div>
-    <div class="luxury-card">
-        <div class="card-title">💳 Con anticipo listo</div>
-        <div class="card-desc">El mensaje llega pidiéndote tu tarjeta para transferir antes de apartar la cita.</div>
-    </div>
-</div>
-""", unsafe_allow_html=True)
-
-st.divider()
-
-# 6. Demostración interactiva
-st.markdown("### 📱 Pruébalo tú misma")
-st.caption("Prueba cómo agendaría una clienta en tu futuro enlace:")
-
-st.markdown('<div class="mockup-app">', unsafe_allow_html=True)
-
-servicios = {
-    "Acrílico Esculpido (Punta Coffin / Almendra)": 480,
-    "Baño de Acrílico + Gel Semi": 350,
-    "Gelish con Diseño Mano Alzada": 280,
-    "Retiro de Acrílico + Manicura Rusa": 220
-}
-
-servicio_elegido = st.selectbox("1. Selecciona el servicio deseado:", list(servicios.keys()))
-precio = servicios[servicio_elegido]
-
-col1, col2 = st.columns(2)
-with col1:
-    fecha = st.date_input("2. Día preferido:", min_value=date.today())
-with col2:
-    horario = st.selectbox("3. Horario disponible:", ["11:00 AM", "1:30 PM", "4:00 PM", "6:30 PM"])
-
-nombre = st.text_input("4. Nombre de la clienta:", "Sofia Montes")
-
-fecha_str = fecha.strftime("%d/%m/%Y")
-
-html_ticket = f"""
-<div class="ticket-box">
-    <div style="font-size: 12px; color: #d4af37; font-weight: 700; letter-spacing: 0.5px;">RESUMEN DE RESERVA</div>
-    <div style="font-size: 15px; font-weight: 600; margin-top: 3px; color: #fff;">{servicio_elegido}</div>
-    <div style="font-size: 13px; color: #9da3af;">Fecha: {fecha_str} • {horario}</div>
-    <div style="font-size: 16px; font-weight: 800; color: #25D366; margin-top: 5px;">Total estimado: ${precio} MXN</div>
-</div>
-"""
-st.markdown(html_ticket, unsafe_allow_html=True)
-
-mensaje_wa = (
-    f"¡Hola! Quiero agendar una cita ✨\n\n"
-    f"👤 Clienta: {nombre}\n"
-    f"💅 Servicio: {servicio_elegido} (${precio} MXN)\n"
-    f"📅 Fecha: {fecha_str} a las {horario}\n\n"
-    f"¿Me pasas tus datos bancarios para transferirte el anticipo y confirmar mi espacio?"
+    page_title="Agenda VIP | Beauty & Nails",
+    page_icon="✨",
+    layout="centered",
+    initial_sidebar_state="collapsed"
 )
-link_demo_wa = "https://wa.me/525539233647?text=" + urllib.parse.quote(mensaje_wa)
 
-html_boton_demo = f'<a class="btn-gold" href="{link_demo_wa}" target="_blank">✨ Probar cómo llega la cita a tu WhatsApp →</a>'
-st.markdown(html_boton_demo, unsafe_allow_html=True)
+# 2. Estilos personalizados Premium (Negro Profundo + Oro Metálico)
+custom_css = """
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Montserrat:wght@300;400;500;600&display=swap');
 
-st.markdown('</div>', unsafe_allow_html=True)
+    /* Ocultar marcas y menús de Streamlit */
+    #MainMenu, footer, header {visibility: hidden !important;}
+    .block-container {
+        padding-top: 2rem !important;
+        padding-bottom: 3rem !important;
+        max-width: 620px;
+    }
 
-st.divider()
+    /* Fondo principal */
+    .stApp {
+        background: radial-gradient(circle at top, #1c1917 0%, #0c0a09 100%);
+        font-family: 'Montserrat', sans-serif;
+        color: #f5f5f4;
+    }
 
-# 7. Oferta y Cierre
-st.markdown("### 👑 Pide tu sistema personalizado")
-st.markdown("""
-* ✅ **Tus servicios y lista de precios oficial.**
-* ✅ **Tus horarios y días de atención configurados.**
-* ✅ **Tu propio botón conectado directo a tu número de WhatsApp.**
-* ✅ **Listo para colocar en la biografía de tu Instagram o TikTok.**
-* ⚡ **Entrega garantizada en menos de 24 horas.**
-""")
+    /* Contenedor del encabezado */
+    .hero-container {
+        text-align: center;
+        padding: 24px 20px 10px 20px;
+        margin-bottom: 25px;
+    }
 
-st.markdown("#### Precio especial de lanzamiento: **$499 MXN** *(Pago único • Sin mensualidades)*")
+    .brand-logo-ring {
+        width: 105px;
+        height: 105px;
+        margin: 0 auto 16px auto;
+        border-radius: 50%;
+        padding: 3px;
+        background: linear-gradient(135deg, #f59e0b, #d97706, #78350f, #fbbf24);
+        box-shadow: 0 0 25px rgba(245, 158, 11, 0.35);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 
-WHATSAPP = "525539233647"
-msg_compra = "Hola Nancy, vi tu página de NAN Agendas Automáticas. Quiero mi enlace para manicuristas por $499 MXN."
-link_compra = "https://wa.me/" + WHATSAPP + "?text=" + urllib.parse.quote(msg_compra)
+    .brand-logo-img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+        background-color: #121212;
+    }
 
-html_boton_compra = f'<a class="btn-whatsapp" href="{link_compra}" target="_blank">💬 QUIERO MI AGENDA POR $499 MXN →</a>'
-st.caption("NAN Studio Tech • Creadora de sistemas de citas para Manicuristas • CDMX")
+    .brand-title {
+        font-family: 'Cinzel', serif;
+        font-size: 28px;
+        font-weight: 700;
+        background: linear-gradient(90deg, #fef08a, #d97706, #fde047);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: 2px;
+        margin-bottom: 6px;
+        text-transform: uppercase;
+    }
 
+    .brand-subtitle {
+        color: #a8a29e;
+        font-size: 13px;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+    }
+
+    .badge-gold {
+        display: inline-block;
+        background: rgba(217, 119, 6, 0.15);
+        border: 1px solid rgba(245, 158, 11, 0.4);
+        color: #fde047;
+        font-size: 11px;
+        padding: 4px 14px;
+        border-radius: 20px;
+        letter-spacing: 1px;
+    }
+
+    /* Tarjetas oscuras con borde dorado */
+    .booking-card {
+        background: #171717;
+        border: 1px solid rgba(217, 119, 6, 0.3);
+        border-radius: 18px;
+        padding: 22px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        margin-bottom: 20px;
+    }
+
+    /* Inputs estilizados */
+    label {
+        color: #e7e5e4 !important;
+        font-weight: 500 !important;
+        font-size: 13px !important;
+        letter-spacing: 0.5px;
+    }
+
+    .stTextInput>div>div>input, 
+    .stSelectbox>div>div, 
+    .stDateInput>div>div>input {
+        background-color: #262626 !important;
+        color: #f5f5f4 !important;
+        border: 1px solid #44403c !important;
+        border-radius: 10px !important;
+    }
+
+    /* Botón VIP de WhatsApp */
+    .btn-whatsapp {
+        display: block;
+        width: 100%;
+        text-align: center;
+        background: linear-gradient(135deg, #f59e0b 0%, #b45309 100%);
+        color: #0c0a09 !important;
+        font-weight: 700;
+        font-size: 16px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        padding: 16px 20px;
+        border-radius: 12px;
+        text-decoration: none;
+        margin-top: 20px;
+        box-shadow: 0 4px 20px rgba(217, 119, 6, 0.4);
+        transition: all 0.3s ease;
+    }
+
+    .btn-whatsapp:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 25px rgba(245, 158, 11, 0.6);
+        color: #000 !important;
+    }
+
+    .note-anticipo {
+        text-align: center;
+        color: #78716c;
+        font-size: 11px;
+        margin-top: 14px;
+        line-height: 1.5;
+    }
+</style>
+"""
+st.markdown(custom_css, unsafe_allow_html=True)
+
+# 3. Datos del Negocio (Personaliza aquí)
+WHATSAPP_NUMERO = "5215500000000"  # Reemplaza con tu número a 10 dígitos con código de país
+LOGO_URL = "https://images.unsplash.com/photo-1604654894610-df63bc536371?w=400&auto=format&fit=crop&q=80"
+
+# 4. Encabezado con Logo y Branding
+st.markdown(f"""
+<div class="hero-container">
+    <div class="brand-logo-ring">
+        <img src="{LOGO_URL}" class="brand-logo-img" alt="Logo">
+    </div>
+    <div class="brand-title">Atelier Nails & Spa</div>
+    <div class="brand-subtitle">Diseño Exclusivo • Cuidado de Autor</div>
+    <span class="badge-gold">AGENDA EN LÍNEA • ATENCIÓN VIP</span>
+</div>
+""", unsafe_allow_html=True)
+
+# 5. Formulario interactivo
+with st.container():
+    st.markdown('<div class="booking-card">', unsafe_allow_html=True)
+    
+    nombre_cliente = st.text_input("✨ Tu nombre completo:", placeholder="Ej. Sofia Ramos")
+    
+    servicio_seleccionado = st.selectbox(
+        "💅 Servicio que deseas agendar:",
+        [
+            "Acrílico Escultural (Diseño VIP) - $650 MXN",
+            "Soft Gel Express + Efecto Espejo/Glitter - $450 MXN",
+            "Mani Ruso + Nivelación Rubber - $400 MXN",
+            "Retoque / Mantenimiento Acrílico - $350 MXN",
+            "Pedicure Spa Profundo + Esmaltado - $500 MXN",
+            "Retiro de Sistema + Tratamiento Nutritivo - $200 MXN"
+        ]
+    )
+    
+    col1, col2 = st.columns(2)
+    with col1:
+        fecha_cita = st.date_input("📅 Fecha:", min_value=date.today())
+    with col2:
+        hora_cita = st.selectbox(
+            "⏰ Horario:",
+            ["10:00 AM", "12:00 PM", "02:30 PM", "04:30 PM", "06:30 PM"]
+        )
+        
+    comentarios = st.text_input("💎 ¿Deseas algún diseño o detalle especial?", placeholder="Ej. Cristales Swarovski, mano alzada, french...")
+
+    st.markdown('</div>', unsafe_allow_html=True)
+
+# 6. Generación del Mensaje para WhatsApp
+if nombre_cliente.strip():
+    mensaje = (
+        f"👑 *SOLICITUD DE CITA VIP*\n\n"
+        f"• *Cliente:* {nombre_cliente}\n"
+        f"• *Servicio:* {servicio_seleccionado}\n"
+        f"• *Fecha:* {fecha_cita.strftime('%d/%m/%Y')}\n"
+        f"• *Horario:* {hora_cita}\n"
+        f"• *Detalles:* {comentarios if comentarios.strip() else 'Diseño estándar'}\n\n"
+        f"✨ _Hola, quedo atenta para realizar el anticipo y asegurar mi horario. ¡Muchas gracias!_"
+    )
+    
+    url_whatsapp = f"https://wa.me/{WHATSAPP_NUMERO}?text={urllib.parse.quote(mensaje)}"
+    
+    st.markdown(
+        f'<a href="{url_whatsapp}" target="_blank" class="btn-whatsapp">📲 Agendar y Confirmar por WhatsApp</a>',
+        unsafe_allow_html=True
+    )
+else:
+    st.info("Ingresa tu nombre arriba para habilitar el enlace directo de confirmación.")
+
+st.markdown(
+    '<div class="note-anticipo">🔒 Tu cita queda formalmente reservada tras validar tu comprobante de anticipo. Atención personalizada bajo reserva previa.</div>',
+    unsafe_allow_html=True
+)
