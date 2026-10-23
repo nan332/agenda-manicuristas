@@ -12,7 +12,41 @@ st.set_page_config(
 # 2. Estilos visuales de lujo y ocultamiento de barras nativas
 st.markdown("""
 <style>
-/* Integrar logo perfectamente sobre fondo negro */
+/* Ocultar barras, encabezados, botones de Streamlit y el botón flotante rojo */
+#MainMenu, header, footer, 
+[data-testid="stToolbar"], 
+[data-testid="stHeader"], 
+[data-testid="stDecoration"], 
+.stDeployButton, 
+div[class*="viewerBadge"],
+div[data-testid="stStatusWidget"],
+div[data-testid="stBottom"],
+div[class*="bottomBar"],
+footer[data-testid="stFooter"],
+div[class*="manage-app"],
+div[data-testid="manage-app-button"],
+button[title="Manage app"] {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+/* Ocultar cualquier contenedor flotante fijo en las esquinas */
+div[style*="position: fixed"][style*="bottom:"],
+div[style*="position: fixed"][style*="right:"],
+div[style*="z-index: 1000000"] {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+}
+
+.stApp {
+    background-color: #0b0c0e;
+    color: #f5f5f7;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
 [data-testid="stImage"] {
     display: flex !important;
     justify-content: center !important;
@@ -20,10 +54,123 @@ st.markdown("""
 }
 
 [data-testid="stImage"] img {
-    mix-blend-mode: screen !important; /* Elimina automáticamente el recuadro blanco */
+    mix-blend-mode: screen !important;
     filter: contrast(110%) brightness(105%) !important;
     max-width: 190px !important;
     margin: 0 auto !important;
+}
+
+.gold-badge {
+    display: inline-block;
+    background: rgba(212, 175, 55, 0.12);
+    color: #e5c158;
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    padding: 6px 16px;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    margin-bottom: 12px;
+}
+
+.hero-title {
+    font-size: 28px;
+    font-weight: 800;
+    line-height: 1.25;
+    background: linear-gradient(135deg, #ffffff 40%, #d4af37 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+.hero-subtitle {
+    font-size: 15px;
+    color: #a0a6b2;
+    line-height: 1.5;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.grid-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 20px 0;
+}
+.luxury-card {
+    background: #14161c;
+    border: 1px solid #282b35;
+    border-radius: 14px;
+    padding: 16px;
+}
+.card-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #e5c158;
+    margin-bottom: 5px;
+}
+.card-desc {
+    font-size: 12px;
+    color: #9da3af;
+    line-height: 1.4;
+}
+
+.mockup-app {
+    background: #12141a;
+    border: 1px solid #333845;
+    border-radius: 18px;
+    padding: 22px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6);
+    margin: 20px 0;
+}
+
+.ticket-box {
+    background: #191c24;
+    border-left: 4px solid #d4af37;
+    border-radius: 10px;
+    padding: 14px;
+    margin: 15px 0;
+}
+
+.btn-gold {
+    display: block;
+    background: linear-gradient(135deg, #d4af37 0%, #aa820a 100%);
+    color: #0b0c0e !important;
+    text-align: center;
+    padding: 15px;
+    font-size: 16px;
+    font-weight: 800;
+    border-radius: 10px;
+    text-decoration: none;
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.25);
+    margin-top: 10px;
+}
+
+.btn-whatsapp {
+    display: block;
+    background: linear-gradient(135deg, #25D366 0%, #1da851 100%);
+    color: white !important;
+    text-align: center;
+    padding: 18px 20px;
+    font-size: 18px;
+    font-weight: 800;
+    border-radius: 12px;
+    text-decoration: none;
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.35);
+    margin: 20px 0;
+}
+</style>
+
+    
+}
+
+[data-testid="stImage"] img {
+    mix-blend-mode: screen !important; //* Integrar logo perfectamente sobre fondo negro */
+[data-testid="stImage"] {
+    display: flex !important;
+    justify-content: center !important;
+    margin-bottom: 10px !important;
 }
 
 #MainMenu, header, footer, 
