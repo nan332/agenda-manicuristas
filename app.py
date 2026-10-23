@@ -1,3 +1,6 @@
+
+
+nombre = st
 import streamlit as st
 import urllib.parse
 from datetime import date
@@ -196,4 +199,53 @@ with col1:
 with col2:
     horario = st.selectbox("3. Horario disponible:", ["11:00 AM", "1:30 PM", "4:00 PM", "6:30 PM"])
 
-nombre = st
+nombre = st.text_input("4. Nombre de la clienta:", "Sofia Montes")
+
+fecha_str = fecha.strftime("%d/%m/%Y")
+
+html_ticket = f"""
+<div class="ticket-box">
+    <div style="font-size: 12px; color: #d4af37; font-weight: 700; letter-spacing: 0.5px;">RESUMEN DE RESERVA</div>
+    <div style="font-size: 15px; font-weight: 600; margin-top: 3px; color: #fff;">{servicio_elegido}</div>
+    <div style="font-size: 13px; color: #9da3af;">Fecha: {fecha_str} • {horario}</div>
+    <div style="font-size: 16px; font-weight: 800; color: #25D366; margin-top: 5px;">Total estimado: ${precio} MXN</div>
+</div>
+"""
+st.markdown(html_ticket, unsafe_allow_html=True)
+
+mensaje_wa = (
+    f"¡Hola! Quiero agendar una cita ✨\n\n"
+    f"👤 Clienta: {nombre}\n"
+    f"💅 Servicio: {servicio_elegido} (${precio} MXN)\n"
+    f"📅 Fecha: {fecha_str} a las {horario}\n\n"
+    f"¿Me pasas tus datos bancarios para transferirte el anticipo y confirmar mi espacio?"
+)
+link_demo_wa = "https://wa.me/525539233647?text=" + urllib.parse.quote(mensaje_wa)
+
+html_boton_demo = f'<a class="btn-gold" href="{link_demo_wa}" target="_blank">✨ Probar cómo llega la cita a tu WhatsApp →</a>'
+st.markdown(html_boton_demo, unsafe_allow_html=True)
+
+st.markdown('</div>', unsafe_allow_html=True)
+
+st.divider()
+
+# 7. Oferta y Cierre
+st.markdown("### 👑 Pide tu sistema personalizado")
+st.markdown("""
+* ✅ **Tus servicios y lista de precios oficial.**
+* ✅ **Tus horarios y días de atención configurados.**
+* ✅ **Tu propio botón conectado directo a tu número de WhatsApp.**
+* ✅ **Listo para colocar en la biografía de tu Instagram o TikTok.**
+* ⚡ **Entrega garantizada en menos de 24 horas.**
+""")
+
+st.markdown("#### Precio especial de lanzamiento: **$499 MXN** *(Pago único • Sin mensualidades)*")
+
+WHATSAPP = "525539233647"
+msg_compra = "Hola Nancy, vi tu página de NAN Agendas Automáticas. Quiero mi enlace para manicuristas por $499 MXN."
+link_compra = "https://wa.me/" + WHATSAPP + "?text=" + urllib.parse.quote(msg_compra)
+
+html_boton_compra = f'<a class="btn-whatsapp" href="{link_compra}" target="_blank">💬 QUIERO MI AGENDA POR $499 MXN →</a>'
+st.markdown(html_boton_compra, unsafe_allow_html=True)
+
+st.caption("NAN Agendas Automáticas • Nancy Rufino • CDMX")
