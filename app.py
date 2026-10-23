@@ -1,226 +1,218 @@
 import streamlit as st
-from datetime import date, time
 import urllib.parse
+from datetime import date
 
 # 1. Configuración de página
 st.set_page_config(
-    page_title="Agenda VIP | Beauty & Nails",
-    page_icon="✨",
+    page_title="NAN Agendas Automáticas | Para Nail Artists",
+    page_icon="👑",
     layout="centered",
     initial_sidebar_state="collapsed"
 )
 
-# 2. Estilos personalizados Premium (Negro Profundo + Oro Metálico)
+# 2. Tu número de WhatsApp de ventas (Donde te compran el sistema)
+WHATSAPP_VENTAS = "5215500000000"  # Pon aquí tu número con lada internacional
+
+# 3. CSS Profesional - Estilo Landing Page Dark & Gold
 custom_css = """
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Montserrat:wght@300;400;500;600&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
 
-    /* Ocultar marcas y menús de Streamlit */
     #MainMenu, footer, header {visibility: hidden !important;}
     .block-container {
-        padding-top: 2rem !important;
-        padding-bottom: 3rem !important;
-        max-width: 620px;
+        padding-top: 1.5rem !important;
+        padding-bottom: 4rem !important;
+        max-width: 650px;
     }
 
-    /* Fondo principal */
     .stApp {
-        background: radial-gradient(circle at top, #1c1917 0%, #0c0a09 100%);
-        font-family: 'Montserrat', sans-serif;
+        background: radial-gradient(circle at 50% 0%, #1e1b18 0%, #0d0c0b 100%);
+        font-family: 'Plus Jakarta Sans', sans-serif;
         color: #f5f5f4;
     }
 
-    /* Contenedor del encabezado */
-    .hero-container {
+    /* Logo Circular con Efecto Glow Dorado (Adiós al cuadro blanco plano) */
+    .logo-hero {
         text-align: center;
-        padding: 24px 20px 10px 20px;
+        padding: 10px 0 15px 0;
+    }
+
+    .logo-glow-wrapper {
+        display: inline-block;
+        padding: 5px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(212,175,55,0.4) 0%, rgba(0,0,0,0) 70%);
+        box-shadow: 0 0 30px rgba(212, 175, 55, 0.25);
+    }
+
+    .logo-img {
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid rgba(212, 175, 55, 0.8);
+        background: #000;
+    }
+
+    /* Badge superior */
+    .badge-pill {
+        display: inline-block;
+        background: rgba(212, 175, 55, 0.1);
+        border: 1px solid rgba(212, 175, 55, 0.5);
+        color: #fde047;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        padding: 6px 18px;
+        border-radius: 50px;
+        text-transform: uppercase;
+        margin-top: 10px;
+    }
+
+    /* Título principal con impacto */
+    .main-headline {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-weight: 800;
+        font-size: 30px;
+        line-height: 1.25;
+        text-align: center;
+        margin-top: 15px;
+        margin-bottom: 15px;
+        color: #ffffff;
+    }
+
+    .highlight-gold {
+        background: linear-gradient(135deg, #fef08a 0%, #d4af37 50%, #aa771c 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .sub-headline {
+        text-align: center;
+        color: #a8a29e;
+        font-size: 15px;
+        line-height: 1.6;
+        margin-bottom: 25px;
+        padding: 0 10px;
+    }
+
+    /* Beneficios en cajas elegantes */
+    .benefit-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
         margin-bottom: 25px;
     }
 
-    .brand-logo-ring {
-        width: 105px;
-        height: 105px;
-        margin: 0 auto 16px auto;
-        border-radius: 50%;
-        padding: 3px;
-        background: linear-gradient(135deg, #f59e0b, #d97706, #78350f, #fbbf24);
-        box-shadow: 0 0 25px rgba(245, 158, 11, 0.35);
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    .benefit-card {
+        background: #151413;
+        border: 1px solid rgba(212, 175, 55, 0.25);
+        border-radius: 14px;
+        padding: 18px 14px;
+        transition: all 0.3s ease;
     }
 
-    .brand-logo-img {
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-        object-fit: cover;
-        background-color: #121212;
+    .benefit-icon {
+        font-size: 24px;
+        margin-bottom: 8px;
     }
 
-    .brand-title {
-        font-family: 'Cinzel', serif;
-        font-size: 28px;
-        font-weight: 700;
-        background: linear-gradient(90deg, #fef08a, #d97706, #fde047);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        letter-spacing: 2px;
-        margin-bottom: 6px;
-        text-transform: uppercase;
-    }
-
-    .brand-subtitle {
-        color: #a8a29e;
-        font-size: 13px;
-        letter-spacing: 1.5px;
-        text-transform: uppercase;
-        margin-bottom: 12px;
-    }
-
-    .badge-gold {
-        display: inline-block;
-        background: rgba(217, 119, 6, 0.15);
-        border: 1px solid rgba(245, 158, 11, 0.4);
+    .benefit-title {
         color: #fde047;
-        font-size: 11px;
-        padding: 4px 14px;
-        border-radius: 20px;
-        letter-spacing: 1px;
+        font-weight: 700;
+        font-size: 14px;
+        margin-bottom: 6px;
     }
 
-    /* Tarjetas oscuras con borde dorado */
-    .booking-card {
-        background: #171717;
-        border: 1px solid rgba(217, 119, 6, 0.3);
-        border-radius: 18px;
-        padding: 22px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        margin-bottom: 20px;
+    .benefit-desc {
+        color: #9ca3af;
+        font-size: 12px;
+        line-height: 1.4;
     }
 
-    /* Inputs estilizados */
-    label {
-        color: #e7e5e4 !important;
-        font-weight: 500 !important;
-        font-size: 13px !important;
-        letter-spacing: 0.5px;
+    /* Marco de Demo */
+    .demo-frame {
+        background: #11100f;
+        border: 1px dashed rgba(212, 175, 55, 0.4);
+        border-radius: 16px;
+        padding: 20px;
+        margin-top: 25px;
+        margin-bottom: 25px;
     }
 
-    .stTextInput>div>div>input, 
-    .stSelectbox>div>div, 
-    .stDateInput>div>div>input {
-        background-color: #262626 !important;
-        color: #f5f5f4 !important;
-        border: 1px solid #44403c !important;
-        border-radius: 10px !important;
+    .demo-tag {
+        font-family: 'Cinzel', serif;
+        font-size: 13px;
+        color: #d4af37;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        text-align: center;
+        margin-bottom: 15px;
+        text-transform: uppercase;
     }
 
-    /* Botón VIP de WhatsApp */
-    .btn-whatsapp {
+    /* Botón CTA Dorado de Venta */
+    .cta-btn {
         display: block;
         width: 100%;
         text-align: center;
         background: linear-gradient(135deg, #f59e0b 0%, #b45309 100%);
         color: #0c0a09 !important;
-        font-weight: 700;
+        font-weight: 800;
         font-size: 16px;
         letter-spacing: 1px;
         text-transform: uppercase;
-        padding: 16px 20px;
+        padding: 18px 15px;
         border-radius: 12px;
         text-decoration: none;
-        margin-top: 20px;
-        box-shadow: 0 4px 20px rgba(217, 119, 6, 0.4);
+        margin: 20px 0 10px 0;
+        box-shadow: 0 4px 25px rgba(217, 119, 6, 0.45);
         transition: all 0.3s ease;
     }
 
-    .btn-whatsapp:hover {
+    .cta-btn:hover {
         transform: translateY(-2px);
-        box-shadow: 0 6px 25px rgba(245, 158, 11, 0.6);
-        color: #000 !important;
+        box-shadow: 0 6px 30px rgba(245, 158, 11, 0.65);
     }
 
-    .note-anticipo {
+    .guarantee-text {
         text-align: center;
+        font-size: 12px;
         color: #78716c;
-        font-size: 11px;
-        margin-top: 14px;
-        line-height: 1.5;
+        margin-top: 10px;
     }
 </style>
 """
 st.markdown(custom_css, unsafe_allow_html=True)
 
-# 3. Datos del Negocio (Personaliza aquí)
-WHATSAPP_NUMERO = "5215500000000"  # Reemplaza con tu número a 10 dígitos con código de país
-LOGO_URL = "https://images.unsplash.com/photo-1604654894610-df63bc536371?w=400&auto=format&fit=crop&q=80"
+# 4. Cabecera con tu Logo 'NAN' y Propuesta de Valor
+# Puedes colocar aquí el archivo local "logo.png" si lo subes a tu GitHub junto al app.py
+LOGO_PATH = "https://images.unsplash.com/photo-1604654894610-df63bc536371?w=400&auto=format&fit=crop&q=80" 
 
-# 4. Encabezado con Logo y Branding
 st.markdown(f"""
-<div class="hero-container">
-    <div class="brand-logo-ring">
-        <img src="{LOGO_URL}" class="brand-logo-img" alt="Logo">
+<div class="logo-hero">
+    <div class="logo-glow-wrapper">
+        <img src="{LOGO_PATH}" class="logo-img" alt="NAN Agendas">
     </div>
-    <div class="brand-title">Atelier Nails & Spa</div>
-    <div class="brand-subtitle">Diseño Exclusivo • Cuidado de Autor</div>
-    <span class="badge-gold">AGENDA EN LÍNEA • ATENCIÓN VIP</span>
+    <br>
+    <span class="badge-pill">Sistemas Exclusivos para Nail Artists</span>
 </div>
+
+<h1 class="main-headline">
+    Deja de perder 2 horas al día contestando precios en <span class="highlight-gold">WhatsApp</span>
+</h1>
+
+<p class="sub-headline">
+    Tu propio <b>link personalizado para biografía de Instagram o TikTok</b>. Tus clientas seleccionan servicio, fecha y hora solas, y te mandan su comprobante de anticipo sin que tengas que interrumpir tus aplicaciones de uñas.
+</p>
 """, unsafe_allow_html=True)
 
-# 5. Formulario interactivo
-with st.container():
-    st.markdown('<div class="booking-card">', unsafe_allow_html=True)
-    
-    nombre_cliente = st.text_input("✨ Tu nombre completo:", placeholder="Ej. Sofia Ramos")
-    
-    servicio_seleccionado = st.selectbox(
-        "💅 Servicio que deseas agendar:",
-        [
-            "Acrílico Escultural (Diseño VIP) - $650 MXN",
-            "Soft Gel Express + Efecto Espejo/Glitter - $450 MXN",
-            "Mani Ruso + Nivelación Rubber - $400 MXN",
-            "Retoque / Mantenimiento Acrílico - $350 MXN",
-            "Pedicure Spa Profundo + Esmaltado - $500 MXN",
-            "Retiro de Sistema + Tratamiento Nutritivo - $200 MXN"
-        ]
-    )
-    
-    col1, col2 = st.columns(2)
-    with col1:
-        fecha_cita = st.date_input("📅 Fecha:", min_value=date.today())
-    with col2:
-        hora_cita = st.selectbox(
-            "⏰ Horario:",
-            ["10:00 AM", "12:00 PM", "02:30 PM", "04:30 PM", "06:30 PM"]
-        )
-        
-    comentarios = st.text_input("💎 ¿Deseas algún diseño o detalle especial?", placeholder="Ej. Cristales Swarovski, mano alzada, french...")
-
-    st.markdown('</div>', unsafe_allow_html=True)
-
-# 6. Generación del Mensaje para WhatsApp
-if nombre_cliente.strip():
-    mensaje = (
-        f"👑 *SOLICITUD DE CITA VIP*\n\n"
-        f"• *Cliente:* {nombre_cliente}\n"
-        f"• *Servicio:* {servicio_seleccionado}\n"
-        f"• *Fecha:* {fecha_cita.strftime('%d/%m/%Y')}\n"
-        f"• *Horario:* {hora_cita}\n"
-        f"• *Detalles:* {comentarios if comentarios.strip() else 'Diseño estándar'}\n\n"
-        f"✨ _Hola, quedo atenta para realizar el anticipo y asegurar mi horario. ¡Muchas gracias!_"
-    )
-    
-    url_whatsapp = f"https://wa.me/{WHATSAPP_NUMERO}?text={urllib.parse.quote(mensaje)}"
-    
-    st.markdown(
-        f'<a href="{url_whatsapp}" target="_blank" class="btn-whatsapp">📲 Agendar y Confirmar por WhatsApp</a>',
-        unsafe_allow_html=True
-    )
-else:
-    st.info("Ingresa tu nombre arriba para habilitar el enlace directo de confirmación.")
-
-st.markdown(
-    '<div class="note-anticipo">🔒 Tu cita queda formalmente reservada tras validar tu comprobante de anticipo. Atención personalizada bajo reserva previa.</div>',
-    unsafe_allow_html=True
-)
+# 5. Tarjetas de Beneficios (Por qué te lo van a comprar)
+st.markdown("""
+<div class="benefit-grid">
+    <div class="benefit-card">
+        <div class="benefit-icon">💅</div>
+        <div class="benefit-title">Cero Interrupciones</div>
+        <div class="benefit-desc">No pares la aplicación de acrílico ni quites los guantes para responder: <i>"¿Cuánto cuesta el set?"</i>.</div>
+    </div>
+    <div class="benefit
