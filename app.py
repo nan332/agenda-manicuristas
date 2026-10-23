@@ -1,7 +1,11 @@
 import streamlit as st
 import urllib.parse
 
-st.set_page_config(page_title="Yo hago agendas para manicuristas", page_icon="🚀", layout="centered")
+st.set_page_config(page_title="NAN - Agendas Automaticas", page_icon="logo.png", layout="centered")
+
+# LOGO DE LUJO NEGRO Y DORADO
+st.image("logo.png", width=220)
+
 WHATSAPP = "525539233647"
 
 st.title("Yo le hago su Agenda Automática a Manicuristas 💅")
