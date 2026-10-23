@@ -1,40 +1,28 @@
 import streamlit as st
 import urllib.parse
 
-st.set_page_config(page_title="Agendas para Manicuristas", page_icon="💅", layout="centered")
+st.set_page_config(page_title="Yo hago agendas para manicuristas", page_icon="🚀", layout="centered")
+WHATSAPP = "525539233647"
 
-TU_WHATSAPP = "525539233647"
+st.title("Yo le hago su Agenda Automática a Manicuristas 💅")
+st.markdown("### Para que agenda sola y le caigan clientas a su WhatsApp 24/7")
 
-st.title("💅 ¿Pones uñas y pierdes clientas por WhatsApp?")
-st.subheader("Yo te pongo tu agenda automática que trabaja 24/7")
+st.markdown("""
+**Yo no hago uñas. Yo hago el sistema.**
+
+Yo les creo su link para que su clienta aparte SOLA y a ellas les llegue a su WhatsApp lista para cobrar.
+
+Dejan de perder tiempo contestando mensajes.
+""")
 st.divider()
-
-st.write("✅ Tu clienta ve tus precios y aparta SOLA")
-st.write("✅ Te llega directo a tu WhatsApp sin preguntar")
-st.write("✅ Ya no contestas 100 mensajes para agendar 2")
-
-st.divider()
-st.header("🎬 Pruébala aquí mismo:")
-with st.form("demo"):
-    nombre = st.text_input("Nombre de tu clienta")
-    servicio = st.selectbox("Servicio", ["Acrílicas $350", "Gelish $200", "Soft Gel $400"])
-    fecha = st.date_input("Fecha")
-    if st.form_submit_button("PROBAR COMO CLIENTA"):
-        st.success(f"Así te llegaría: {nombre} quiere {servicio} el {fecha}")
-        st.balloons()
+st.markdown("**Demo de lo que les entrego:**")
+with st.container(border=True):
+    st.text_input("Nombre", "Lupita", disabled=True)
+    st.button("Apartar cita", disabled=True)
 
 st.divider()
-st.header("💰 ¿Cuánto cuesta tener la tuya?")
-st.success("SETUP: $799 MXN - Te la entrego con tu nombre en 24h")
-st.warning("MANTENIMIENTO: $199/mes - Yo la mantengo prendida")
-
-st.divider()
-st.header("👉 ¿Quieres tu demo gratis?")
-nombre_mani = st.text_input("Escribe tu nombre o tu salón", placeholder="Ej: Nails by Nancy")
-if nombre_mani:
-    mensaje = f"Hola Nancy! Soy {nombre_mani}, pongo uñas y quiero mi demo gratis de agenda. Vi tu pagina."
-    mensaje_encoded = urllib.parse.quote(mensaje)
-    link_wa = f"https://wa.me/{TU_WHATSAPP}?text={mensaje_encoded}"
-    st.link_button("📲 QUIERO MI DEMO GRATIS POR WHATSAPP", link_wa, type="primary", use_container_width=True)
-
-st.caption("Creado por Nancy | Agendas Automaticas CDMX")
+st.markdown("## $499 pago único - Se la hago en 24hrs")
+msg = "Hola Nancy quiero que me hagas mi agenda $499"
+link = f"https://wa.me/{WHATSAPP}?text={urllib.parse.quote(msg)}"
+st.link_button("QUIERO QUE ME HAGAS MI AGENDA →", link)
+st.caption("Soy Nancy - Hago agendas, no hago uñas - 55 3923 3647")
