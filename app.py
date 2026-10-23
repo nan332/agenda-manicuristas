@@ -2,12 +2,14 @@ import streamlit as st
 import urllib.parse
 from datetime import date
 
+# 1. Configuración de página
 st.set_page_config(
     page_title="NAN | Agendas Automáticas para Manicuristas",
     page_icon="💅",
     layout="centered"
 )
 
+# 2. Estilos visuales de lujo y ocultamiento de barras nativas
 st.markdown("""
 <style>
 #MainMenu, header, footer, 
@@ -56,7 +58,7 @@ div[style*="position: fixed"][style*="right:"] {
 }
 
 .hero-title {
-    font-size: 30px;
+    font-size: 28px;
     font-weight: 800;
     line-height: 1.25;
     background: linear-gradient(135deg, #ffffff 40%, #d4af37 100%);
@@ -145,15 +147,18 @@ div[style*="position: fixed"][style*="right:"] {
 </style>
 """, unsafe_allow_html=True)
 
+# 3. Mostrar logo si existe
 try:
     st.image("logo.png", width=220)
 except Exception:
     st.markdown("<h2 style='text-align:center; color:#d4af37;'>NAN • AGENDAS AUTOMÁTICAS</h2>", unsafe_allow_html=True)
 
+# 4. Encabezado
 st.markdown('<div style="text-align:center;"><span class="gold-badge">SISTEMAS EXCLUSIVOS PARA NAIL ARTISTS</span></div>', unsafe_allow_html=True)
 st.markdown('<div class="hero-title">Deja de perder 2 horas al día contestando precios en WhatsApp</div>', unsafe_allow_html=True)
-st.markdown('<div class="hero-subtitle">Tu propio link profesional para tu perfil de Instagram. Tus clientas eligen servicio, día y hora solas, y te mandan su anticipo sin interrumpir tus aplicaciones.</div>', unsafe_allow_html=True)
+st.markdown('<div class="hero-subtitle">Tu propio link para Instagram. Tus clientas eligen servicio, día y hora solas, y te mandan su anticipo sin interrumpir tus aplicaciones.</div>', unsafe_allow_html=True)
 
+# 5. Beneficios
 st.markdown("""
 <div class="grid-cards">
     <div class="luxury-card">
@@ -169,6 +174,7 @@ st.markdown("""
 
 st.divider()
 
+# 6. Demostración interactiva
 st.markdown("### 📱 Pruébalo tú misma")
 st.caption("Prueba cómo agendaría una clienta en tu futuro enlace:")
 
@@ -190,25 +196,4 @@ with col1:
 with col2:
     horario = st.selectbox("3. Horario disponible:", ["11:00 AM", "1:30 PM", "4:00 PM", "6:30 PM"])
 
-nombre = st.text_input("4. Nombre de la clienta:", "Sofia Montes")
-
-st.markdown(f"""
-<div class="ticket-box">
-    <div style="font-size: 12px; color: #d4af37; font-weight: 700; letter-spacing: 0.5px;">RESUMEN DE RESERVA</div>
-    <div style="font-size: 15px; font-weight: 600; margin-top: 3px; color: #fff;">{servicio_elegido}</div>
-    <div style="font-size: 13px; color: #9da3af;">Fecha: {fecha.strftime('%d/%m/%Y')} • {horario}</div>
-    <div style="font-size: 16px; font-weight: 800; color: #25D366; margin-top: 5px;">Total estimado: ${precio} MXN</div>
-</div>
-""", unsafe_allow_html=True)
-
-mensaje_wa = (
-    f"¡Hola! Quiero agendar una cita ✨\n\n"
-    f"👤 Clienta: {nombre}\n"
-    f"💅 Servicio: {servicio_elegido} (${precio} MXN)\n"
-    f"📅 Fecha: {fecha.strftime('%d/%m/%Y')} a las {horario}\n\n"
-    f"¿Me pasas tus datos bancarios para transferirte el anticipo y confirmar mi espacio?"
-)
-link_demo_wa = f"https://wa.me/525539233647?text={urllib.parse.quote(mensaje_wa)}"
-
-st.markdown(f'''
-<a class="btn
+nombre = st
