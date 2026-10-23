@@ -117,7 +117,37 @@ body {
     margin: 20px 0;
 }
 </style>
+st.markdown("""
+<style>
+/* Ocultar barra flotante inferior, corona y logos de Streamlit */
+div[data-testid="stStatusWidget"],
+div[data-testid="stDecoration"],
+div[class*="viewerBadge"],
+div[class*="StatusWidget"],
+.stDeployButton,
+footer,
+header,
+#MainMenu {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+/* Eliminar el pie de página flotante completo */
+div[data-testid="stBottom"],
+div[class*="bottomBar"],
+footer[data-testid="stFooter"] {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+/* Ocultar botones flotantes de la esquina inferior derecha */
+div[style*="position: fixed"][style*="bottom:"] {
+    display: none !important;
+    visibility: hidden !important;
+}
+</style>
 """, unsafe_allow_html=True)
+
 
 # ENCABEZADO
 st.markdown('<span class="pill-badge">✨ SISTEMA DE CITAS PARA NAIL ARTISTS</span>', unsafe_allow_html=True)
