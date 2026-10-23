@@ -5,7 +5,17 @@ st.set_page_config(page_title="NAN - Agendas Automaticas", page_icon="logo.png",
 
 # LOGO DE LUJO NEGRO Y DORADO
 st.image("logo.png", width=220)
-
+# ESCONDER LO DE TENEDOR Y GITHUB PARA QUE SE VEA PRO
+st.markdown("""
+<style>
+#MainMenu {visibility: hidden;}
+header {visibility: hidden;}
+footer {visibility: hidden;}
+[data-testid="stToolbar"] {visibility: hidden !important;}
+[data-testid="stHeader"] {visibility: hidden !important;}
+.stDeployButton {display:none !important;}
+</style>
+""", unsafe_allow_html=True)
 WHATSAPP = "525539233647"
 
 st.title("Yo le hago su Agenda Automática a Manicuristas 💅")
